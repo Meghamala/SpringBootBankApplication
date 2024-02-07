@@ -1,10 +1,13 @@
 package com.springbank.accounts.service.Impl;
 
 import com.springbank.accounts.constants.AccountConstants;
+import com.springbank.accounts.dto.AccountsDto;
 import com.springbank.accounts.dto.CustomerDto;
 import com.springbank.accounts.entity.Accounts;
 import com.springbank.accounts.entity.Customer;
 import com.springbank.accounts.exception.CustomerAlreadyExistsException;
+import com.springbank.accounts.exception.ResourceNotFoundException;
+import com.springbank.accounts.mapper.AccountsMapper;
 import com.springbank.accounts.mapper.CustomerMapper;
 import com.springbank.accounts.repository.AccountRepository;
 import com.springbank.accounts.repository.CustomerRepository;
@@ -55,5 +58,24 @@ public class AccountsServicesImpl implements IAccountsService {
         newAccount.setCreatedBy("Megha");
         newAccount.setCreatedAt(LocalDateTime.now());
         return newAccount;
+    }
+
+    /**
+     * @param mobileNumber - Input Mobile Number
+     * @return Account details based on mobile number
+     */
+    @Override
+    public CustomerDto fetchAccount(String mobileNumber) {
+        Customer customer = customerRepository.findByMobileNumber(mobileNumber).orElseThrow(
+                () -> new ResourceNotFoundException("Customer", "mobile", mobileNumber)
+        );
+
+        Accounts account = accountRepository.findByCustomerID(customer.getCustomerID()).orElseThrow(
+                () -> new ResourceNotFoundException("Account", "customerID", customer.getCustomerID().toString())
+        );
+
+        CustomerDto customerDto = CustomerMapper.mapToCustomerDto(customer, new CustomerDto());
+        customerDto.setAccountsDto(AccountsMapper.mapToAccountsDto(account, new AccountsDto()));
+        return customerDto;
     }
 }

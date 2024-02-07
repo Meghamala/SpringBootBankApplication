@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class AccountsController {
 
+    @Autowired
     private IAccountsService iAccountsService;
 
     // support http get method, to invoke API use this method with "sayHello" path
@@ -39,5 +40,14 @@ public class AccountsController {
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(new ResponseDto(AccountConstants.STATUS_201, AccountConstants.MESSAGE_201));
+    }
+
+    @GetMapping("/fetch")
+    public ResponseEntity<CustomerDto> fetchAccountDetails(@RequestParam String mobileNumber){
+        CustomerDto customerDto = iAccountsService.fetchAccount(mobileNumber);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(customerDto);
     }
 }
