@@ -50,4 +50,19 @@ public class AccountsController {
                 .status(HttpStatus.OK)
                 .body(customerDto);
     }
+
+    @PutMapping("/update")
+    public ResponseEntity<ResponseDto> updateDetails(@RequestBody CustomerDto customerDto){
+        Boolean isUpdated = iAccountsService.updateAccount(customerDto);
+
+        if(isUpdated) {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(new ResponseDto(AccountConstants.STATUS_200, AccountConstants.MESSAGE_200));
+        }else{
+            return ResponseEntity
+                    .status(HttpStatus.EXPECTATION_FAILED)
+                    .body(new ResponseDto(AccountConstants.STATUS_417, AccountConstants.MESSAGE_417_UPDATE));
+        }
+    }
 }
