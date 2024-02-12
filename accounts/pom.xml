@@ -51,8 +51,13 @@
 			<optional>true</optional>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-test</artifactId>
+			<groupId>org.springdoc</groupId>
+			<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
+			<version>2.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>  <!-- openAPI dependency for REST API doc: https://springdoc.org/#getting-started -->
+			<artifactId>spring-boot-starter-test</artifactId> <!-- http://localhost:8080/swagger-ui/index.html -->
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
