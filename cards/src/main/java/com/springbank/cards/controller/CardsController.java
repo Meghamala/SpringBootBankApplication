@@ -44,7 +44,7 @@ public class CardsController {
     }
 
     @PutMapping("/update")
-    public ResponseEntity<ResponseDto> updateCard(@RequestBody CardsDto cardsDto) {
+    public ResponseEntity<ResponseDto> updateCardDetails(@RequestBody CardsDto cardsDto) {
         Boolean isUpdated = iCardsService.updateCard(cardsDto);
 
         if (isUpdated) {
@@ -55,6 +55,22 @@ public class CardsController {
             return ResponseEntity
                     .status(HttpStatus.EXPECTATION_FAILED)
                     .body(new ResponseDto(CardsConstants.STATUS_417, CardsConstants.MESSAGE_417_UPDATE));
+        }
+    }
+
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<ResponseDto> deleteCardDetails(@RequestParam String mobileNumber) {
+        Boolean isDeleted = iCardsService.deleteCard(mobileNumber);
+
+        if (isDeleted) {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(new ResponseDto(CardsConstants.STATUS_200, CardsConstants.MESSAGE_200));
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDto(CardsConstants.STATUS_417, CardsConstants.MESSAGE_417_DELETE));
         }
     }
 }
