@@ -4,6 +4,7 @@ import com.springbank.cards.constants.CardsConstants;
 import com.springbank.cards.dto.CardsDto;
 import com.springbank.cards.entity.Cards;
 import com.springbank.cards.exception.CardAlreadyExistsException;
+import com.springbank.cards.exception.ResourceNotFoundException;
 import com.springbank.cards.mapper.CardsMapper;
 import com.springbank.cards.repository.CardsRepository;
 import com.springbank.cards.service.ICardsService;
@@ -36,6 +37,7 @@ public class CardsServiceImpl implements ICardsService {
 
     }
 
+
     private Cards CreateNewCard(String mobileNumber) {
         Cards newCard = new Cards();
         long randomCardNumber = 100000000000L + new Random().nextInt(900000000);
@@ -49,4 +51,21 @@ public class CardsServiceImpl implements ICardsService {
         newCard.setCreatedAt(LocalDateTime.now());
         return newCard;
     }
+
+    /**
+     * @param mobileNumber - Input Mobile Number
+     * @return Card details based on mobile number
+     */
+    @Override
+    public CardsDto fetchCards(String mobileNumber) {
+
+        Cards cards = cardsRepository.findByMobileNumber(mobileNumber).orElseThrow(
+                () -> new ResourceNotFoundException("Card", "mobile", mobileNumber)
+        );
+
+        CardsDto cardsDto = CardsMapper.mapToCardsDto(cards, new CardsDto());
+        return cardsDto;
+
+    }
+
 }

@@ -33,4 +33,13 @@ public class CardsController {
                 .status(HttpStatus.CREATED)
                 .body(new ResponseDto(CardsConstants.STATUS_201, CardsConstants.MESSAGE_201));
     }
+
+    @GetMapping("/fetch")
+    public ResponseEntity<CardsDto> fetchCards(@RequestParam String mobileNumber){
+        CardsDto cardsDto = iCardsService.fetchCards(mobileNumber);
+
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                .body(cardsDto);
+    }
 }
