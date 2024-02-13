@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 @AllArgsConstructor
 public class CardsController {
 
-//    @GetMapping("sayHello")
+    //    @GetMapping("sayHello")
 //    public String sayHello(){
 //        return "Hello World, Cards MS";
 //    }
@@ -25,7 +25,7 @@ public class CardsController {
     private ICardsService iCardsService;
 
     @PostMapping("/create")
-    public ResponseEntity<ResponseDto> createCards(@RequestParam String mobileNumber){
+    public ResponseEntity<ResponseDto> createCards(@RequestParam String mobileNumber) {
 
         iCardsService.createCards(mobileNumber);
 
@@ -35,11 +35,26 @@ public class CardsController {
     }
 
     @GetMapping("/fetch")
-    public ResponseEntity<CardsDto> fetchCards(@RequestParam String mobileNumber){
+    public ResponseEntity<CardsDto> fetchCards(@RequestParam String mobileNumber) {
         CardsDto cardsDto = iCardsService.fetchCards(mobileNumber);
 
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(cardsDto);
+    }
+
+    @PutMapping("/update")
+    public ResponseEntity<ResponseDto> updateCard(@RequestBody CardsDto cardsDto) {
+        Boolean isUpdated = iCardsService.updateCard(cardsDto);
+
+        if (isUpdated) {
+            return ResponseEntity
+                    .status(HttpStatus.OK)
+                    .body(new ResponseDto(CardsConstants.STATUS_200, CardsConstants.MESSAGE_200));
+        } else {
+            return ResponseEntity
+                    .status(HttpStatus.EXPECTATION_FAILED)
+                    .body(new ResponseDto(CardsConstants.STATUS_417, CardsConstants.MESSAGE_417_UPDATE));
+        }
     }
 }

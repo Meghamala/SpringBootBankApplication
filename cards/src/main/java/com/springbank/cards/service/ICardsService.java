@@ -16,4 +16,11 @@ public interface ICardsService {
      * @return Card details based on mobile number
      */
     CardsDto fetchCards(String mobileNumber);
+
+    /**
+     *
+     * @param cardsDto - Input CardsDto object
+     * @return - boolean indicating if the update of Card details is successful or not
+     */
+    Boolean updateCard(CardsDto cardsDto);
 }
