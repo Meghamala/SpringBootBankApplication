@@ -73,12 +73,11 @@
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
-				<artifactId>spring-boot-maven-plugin</artifactId>
+				<artifactId>spring-boot-maven-plugin</artifactId> <!-- to build docker image -->
+				<version>3.2.2</version>
 				<configuration>
 					<image>
-						<name>
-
-						</name>
+						<name>meghamala228/${project.artifactId}:2</name>
 					</image>
 					<excludes>
 						<exclude>
@@ -90,5 +89,6 @@
 			</plugin>
 		</plugins>
 	</build>
+
 
 </project>
