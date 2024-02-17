@@ -76,15 +76,22 @@
 				<artifactId>spring-boot-maven-plugin</artifactId> <!-- to build docker image -->
 				<version>3.2.2</version>
 				<configuration>
-					<image>
-						<name>meghamala228/${project.artifactId}:2</name>
-					</image>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>
 							<artifactId>lombok</artifactId>
 						</exclude>
 					</excludes>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.google.cloud.tools</groupId>
+				<artifactId>jib-maven-plugin</artifactId>
+				<version>3.4.0</version>
+				<configuration>
+					<to>
+						<image>meghamala228/${project.artifactId}:1</image>
+					</to>
 				</configuration>
 			</plugin>
 		</plugins>
