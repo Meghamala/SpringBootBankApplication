@@ -17,6 +17,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.observation.ObservationProperties;
+import org.springframework.core.env.Environment;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -47,6 +48,9 @@ public class AccountsController {
 
     @Value("${build.version}")
     private String buildVersion;
+
+    @Autowired
+    private Environment environment;
 
     // to add description to each API on doc
     @Operation(
@@ -178,7 +182,7 @@ public class AccountsController {
 
     @Operation(
             summary = "Get Build Information",
-            description = "Get Java versions details that is installed into accounts microservice"
+            description = "Get Build versions details that is installed into accounts microservice"
     )
     @ApiResponses({
             @ApiResponse(
@@ -199,5 +203,31 @@ public class AccountsController {
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(buildVersion);
+    }
+
+    @Operation(
+            summary = "Get Java Version Information",
+            description = "Get Java versions details that is installed into accounts microservice"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status OK"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content( // when 500 happens, application will follow schema defined in error dto
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+
+            )
+    })
+    @GetMapping("/java-version")
+    public ResponseEntity<String> getJavaVersion(){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                //.body(environment.getProperty("MAVEN_HOME"));
+                .body(environment.getProperty("JAVA_HOME"));
     }
 }
