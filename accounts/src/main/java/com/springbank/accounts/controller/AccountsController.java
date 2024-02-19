@@ -1,6 +1,7 @@
 package com.springbank.accounts.controller;
 
 import com.springbank.accounts.constants.AccountConstants;
+import com.springbank.accounts.dto.AccountsContactInfoDto;
 import com.springbank.accounts.dto.CustomerDto;
 import com.springbank.accounts.dto.ErrorResponseDto;
 import com.springbank.accounts.dto.ResponseDto;
@@ -51,6 +52,9 @@ public class AccountsController {
 
     @Autowired
     private Environment environment;
+
+    @Autowired // injecting created bean
+    private AccountsContactInfoDto accountsContactInfoDto;
 
     // to add description to each API on doc
     @Operation(
@@ -229,5 +233,31 @@ public class AccountsController {
                 .status(HttpStatus.OK)
                 //.body(environment.getProperty("MAVEN_HOME"));
                 .body(environment.getProperty("JAVA_HOME"));
+    }
+
+    @Operation(
+            summary = "Get Contact Information",
+            description = "Contact Info details that can be reached out in case of any issues"
+    )
+    @ApiResponses({
+            @ApiResponse(
+                    responseCode = "200",
+                    description = "HTTP Status OK"
+            ),
+            @ApiResponse(
+                    responseCode = "500",
+                    description = "HTTP Status Internal Server Error",
+                    content = @Content( // when 500 happens, application will follow schema defined in error dto
+                            schema = @Schema(implementation = ErrorResponseDto.class)
+                    )
+
+            )
+    })
+    @GetMapping("/contact-info")
+    public ResponseEntity<AccountsContactInfoDto> getContactInfo(){
+        return ResponseEntity
+                .status(HttpStatus.OK)
+                //.body(environment.getProperty("MAVEN_HOME"));
+                .body(accountsContactInfoDto);
     }
 }
