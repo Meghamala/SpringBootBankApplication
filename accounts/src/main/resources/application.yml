@@ -1,6 +1,10 @@
 server:
   port: 8080
 spring:
+  application:
+    name: "accounts"  # name has to be same as config file name: accounts.yml
+  profiles:
+    active: "prod" # by default which profile to consider
   datasource:
     url: jdbc:h2:mem:testdb
     driverClassName: org.h2.Driver
@@ -15,22 +19,5 @@ spring:
       ddl-auto: update
     show-sql: true
   config:
-    import:
-      - "application_qa.yml"
-      - "application_prod.yml"
-  profiles:
-    active:
-      - "qa"
-
-build:
-  version: "3.0"
-
-# configuration properties
-accounts:
-  message: "Welcome to SpringBank accounts related local APIs "
-  contactDetails:
-    name: "Deepak J - Developer"
-    email: "deep@springbank.com"
-  onCallSupport:
-      - (555) 555-1234
-      - (555) 523-1345
+    import: "optional:configserver:http://localhost:8071/"  # this is client so need to give endpoint of config server , optional to
+    # indicate to start MS even if config server is unavailable
