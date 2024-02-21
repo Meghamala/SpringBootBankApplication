@@ -8,7 +8,7 @@ spring:
       server:
         native:
           search-locations: "classpath:/config" # classpath config
-
+          #search-locations: "file:///Users//meghamala//Documents//config"
 server:
   port: 8071
 
