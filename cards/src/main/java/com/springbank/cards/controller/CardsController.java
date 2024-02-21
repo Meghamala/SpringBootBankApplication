@@ -187,7 +187,7 @@ public class CardsController {
 
     @Operation(
             summary = "Get Build Information",
-            description = "Get Build versions details that is installed into accounts microservice"
+            description = "Get Build versions details that is installed into Cards microservice"
     )
     @ApiResponses({
             @ApiResponse(
@@ -212,7 +212,7 @@ public class CardsController {
 
     @Operation(
             summary = "Get Java Version Information",
-            description = "Get Java versions details that is installed into accounts microservice"
+            description = "Get Java versions details that is installed into Cards microservice"
     )
     @ApiResponses({
             @ApiResponse(

@@ -14,3 +14,22 @@ spring:
     hibernate:
       ddl-auto: update
     show-sql: true
+  config:
+    import:
+      - "application_qa.yml"
+      - "application_prod.yml"
+  profiles:
+    active:
+      - "qa"
+
+build:
+  version: "3.0"
+
+loans:
+  message: "Welcome to SpringBank loans related local APIs "
+  contactDetails:
+    name: "Khal Drogo - Developer"
+    email: "khaldrogo@springbank.com"
+  onCallSupport:
+    - (412) 342-9086
+    - (915) 356-5620
