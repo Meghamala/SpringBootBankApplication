@@ -2,13 +2,21 @@ spring:
   application: # name for config server
     name: "configserver"
   profiles:
-    active: native # activate native profile of config server
+    # active: native # activate native profile of config server( for class and file path)
+    active: git
   cloud:
     config:
       server:
-        native:
+        #native:
           # search-locations: "classpath:/config" # classpath config
-          search-locations: "file:///Users//meghamala//Documents//config"
+          #search-locations: "file:///Users//meghamala//Documents//config"
+        git:
+          uri: "https://github.com/Meghamala/springBank-config.git"
+          default-label: main # branch name
+          timeout: 5 # wait for 5 sec or throw exception
+          clone-on-start: true #to clone for first request
+          force-pull: true
+
 server:
   port: 8071
 
