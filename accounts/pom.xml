@@ -36,7 +36,7 @@
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
+			<groupId>org.springframework.cloud</groupId> <!-- config client dependency -->
 			<artifactId>spring-cloud-starter-config</artifactId>
 		</dependency>
 		<dependency>
