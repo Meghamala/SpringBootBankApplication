@@ -21,3 +21,10 @@ spring:
   config:
     import: "optional:configserver:http://localhost:8071/"  # this is client so need to give endpoint of config server , optional to
     # indicate to start MS even if config server is unavailable
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*" # to enable and expose all endpoints supported by springboot actuator
+        # ex: http://localhost:8090/actuator/refresh will b exposed for loans
