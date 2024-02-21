@@ -1,0 +1,11 @@
+build:
+  version: "1.0"
+
+cards:
+  message: "Welcome to SpringBank cards related prod APIs "
+  contactDetails:
+    name: "Mike Ross - Prod Owner"
+    email: "mike@springbank.com"
+  onCallSupport:
+    - (412) 234-5674
+    - (915) 342-8940

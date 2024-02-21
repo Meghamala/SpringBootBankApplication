@@ -1,0 +1,12 @@
+build:
+  version: "3.0"
+
+# configuration properties
+accounts:
+  message: "Welcome to SpringBank accounts related local APIs "
+  contactDetails:
+    name: "Deepak J - Developer"
+    email: "deep@springbank.com"
+  onCallSupport:
+      - (555) 555-1234
+      - (555) 523-1345
