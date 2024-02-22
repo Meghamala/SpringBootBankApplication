@@ -16,6 +16,11 @@ spring:
           timeout: 5 # wait for 5 sec or throw exception
           clone-on-start: true #to clone for first request
           force-pull: true
+  rabbitmq: # spring cloud bus config with rabbitmq for refresh config
+    host: "localhost"
+    port: 5672
+    username: "guest"
+    password: "guest"
 
 encrypt:
   key: "45D81EC1EF61DF9AD8D3E5BB397F9"
