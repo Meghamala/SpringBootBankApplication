@@ -21,6 +21,11 @@ spring:
   config:
     import: "optional:configserver:http://localhost:8071/"  # this is client so need to give endpoint of config server , optional to
     # indicate to start MS even if config server is unavailable
+  rabbitmq:
+    host: "localhost"
+    port: 5672
+    username: "guest"
+    password: "guest"
 
 management:
   endpoints:
