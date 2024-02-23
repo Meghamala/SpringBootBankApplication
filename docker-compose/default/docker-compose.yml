@@ -11,8 +11,9 @@ services:
       timeout: 5s
       retries: 10
       start_period: 5s
-    networks:
-      - springbank
+    extends:
+      file: common-config.yml
+      service: network-deploy-service
 
   configserver:
     image: "meghamala228/configserver:2"
@@ -28,67 +29,43 @@ services:
       timeout: 5s
       retries: 10
       start_period: 10s
-    deploy:
-      resources:
-        limits:
-          memory: 700m
-    networks:
-      - springbank
+    extends:
+      file: common-config.yml
+      service: microservice-base-config
 
   accounts:
     image: "meghamala228/accounts:2"
     container_name: accounts-ms
     ports:
       - "8080:8080"
-    depends_on: # to make sure client is waiting for service to get started
-      configserver:
-        condition: service_healthy
-    deploy:
-      resources:
-        limits:
-          memory: 700m
-    networks:
-      - springbank
     environment: # linking client to server
       SPRING_APPLICATION_NAME: "accounts"
-      SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071/" # service name is configserver
-      SPRING_PROFILES_ACTIVE: default
+    extends:
+      file: common-config.yml
+      service: microservice-base-config
+
   loans:
     image: "meghamala228/loans:2"
     container_name: loans-ms
     ports:
       - "8090:8090"
-    depends_on: # to make sure client is waiting for service to get started
-      configserver:
-        condition: service_healthy
-    deploy:
-      resources:
-        limits:
-          memory: 700m
-    networks:
-      - springbank
     environment:
       SPRING_APPLICATION_NAME: "loans"
-      SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071/" # service name is configserver
-      SPRING_PROFILES_ACTIVE: default
+    extends:
+      file: common-config.yml
+      service: microservice-base-config
+
   cards:
     image: "meghamala228/cards:2"
     container_name: cards-ms
     ports:
       - "9000:9000"
-    depends_on: # to make sure client is waiting for service to get started
-      configserver:
-        condition: service_healthy
-    deploy:
-      resources:
-        limits:
-          memory: 700m
-    networks:
-      - springbank
     environment:
       SPRING_APPLICATION_NAME: "cards"
-      SPRING_CONFIG_IMPORT: "configserver:http://configserver:8071/" # service name is configserver
-      SPRING_PROFILES_ACTIVE: default
+    extends:
+      file: common-config.yml
+      service: microservice-base-config
+
 networks:
   springbank:
     driver: "bridge"
