@@ -6,26 +6,29 @@ spring:
   profiles:
     active: "prod" # by default which profile to consider
   datasource:
-    url: jdbc:h2:mem:testdb
-    driverClassName: org.h2.Driver
-    username: sa
-    password: ''
-  h2:
-    console:
-      enabled: true
+    url: jdbc:mysql://localhost:3306/accountsdb
+#    driverClassName: org.h2.Driver
+    username: root
+    password: root
+#  h2:
+#    console:
+#      enabled: true
   jpa:
-    database-platform: org.hibernate.dialect.H2Dialect
-    hibernate:
-      ddl-auto: update
+#    database-platform: org.hibernate.dialect.H2Dialect
+#    hibernate:
+#      ddl-auto: update
     show-sql: true
+  sql:
+    init:
+      mode: always # to make sure to run the script in schema.sql during startup
   config:
     import: "optional:configserver:http://localhost:8071/"  # this is client so need to give endpoint of config server , optional to
     # indicate to start MS even if config server is unavailable
-  rabbitmq:
-    host: "localhost"
-    port: 5672
-    username: "guest"
-    password: "guest"
+#  rabbitmq:
+#    host: "localhost"
+#    port: 5672
+#    username: "guest"
+#    password: "guest"
 
 management:
   endpoints:
