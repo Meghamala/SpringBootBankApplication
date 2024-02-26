@@ -109,7 +109,7 @@
 				<version>3.4.0</version>
 				<configuration>
 					<to>
-						<image>meghamala228/${project.artifactId}:2</image>
+						<image>meghamala228/${project.artifactId}:3</image>
 					</to>
 				</configuration>
 			</plugin>

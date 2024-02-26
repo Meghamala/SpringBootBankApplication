@@ -1,16 +1,45 @@
 services:
-  rabbit: # for msg broadcasting, need to run rabbit service docker
-    image: rabbitmq:3.12-management
-    hostname: rabbitmq
+#  rabbit: # for msg broadcasting, need to run rabbit service docker
+#    image: rabbitmq:3.12-management
+#    hostname: rabbitmq
+#    ports:
+#      - "5672:5672"
+#      - "15672:15672"
+#    healthcheck:
+#      test: rabbitmq-diagnostics check_port_connectivity
+#      interval: 10s
+#      timeout: 5s
+#      retries: 10
+#      start_period: 5s
+#    extends:
+#      file: common-config.yml
+#      service: network-deploy-service
+  acountsdb:
+    container_name: accountsdb
     ports:
-      - "5672:5672"
-      - "15672:15672"
-    healthcheck:
-      test: rabbitmq-diagnostics check_port_connectivity
-      interval: 10s
-      timeout: 5s
-      retries: 10
-      start_period: 5s
+      - 3306:3306
+    environment:
+      MYSQL_DATABASE: accountsdb
+    extends:
+      file: common-config.yml
+      service: microservice-db-config
+
+  cardsdb:
+    container_name: cardsdb
+    ports:
+      - 3307:3306
+    environment:
+      MYSQL_DATABASE: cardsdb
+    extends:
+      file: common-config.yml
+      service: microservice-db-config
+
+  loansdb:
+    container_name: loansdb
+    ports:
+      - 3308:3306
+    environment:
+      MYSQL_DATABASE: loansdb
     extends:
       file: common-config.yml
       service: network-deploy-service
@@ -40,17 +69,10 @@ services:
       - "8080:8080"
     environment: # linking client to server
       SPRING_APPLICATION_NAME: "accounts"
-    extends:
-      file: common-config.yml
-      service: microservice-configserver-config
-
-  loans:
-    image: "meghamala228/loans:2"
-    container_name: loans-ms
-    ports:
-      - "8090:8090"
-    environment:
-      SPRING_APPLICATION_NAME: "loans"
+      SPRING_DATASOURCE_URL: "jdbc:mysql://accountsdb:3306/accountsdb"
+    depends_on:
+      accountsdb:
+        condition: service_healthy
     extends:
       file: common-config.yml
       service: microservice-configserver-config
@@ -62,6 +84,25 @@ services:
       - "9000:9000"
     environment:
       SPRING_APPLICATION_NAME: "cards"
+      SPRING_DATASOURCE_URL: "jdbc:mysql://cardsdb:3307/cardsdb"
+    depends_on:
+      cardsdb:
+        condition: service_healthy
+    extends:
+      file: common-config.yml
+      service: microservice-configserver-config
+
+  loans:
+    image: "meghamala228/loans:2"
+    container_name: loans-ms
+    ports:
+      - "8090:8090"
+    environment:
+      SPRING_APPLICATION_NAME: "loans"
+      SPRING_DATASOURCE_URL: "jdbc:mysql://loansdb:3308/loansdb"
+    depends_on:
+      loansdb:
+        condition: service_healthy
     extends:
       file: common-config.yml
       service: microservice-configserver-config
