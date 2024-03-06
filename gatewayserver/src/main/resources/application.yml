@@ -8,6 +8,7 @@ spring:
       discovery:
         locator:
           enabled: true
+          lowerCaseServiceId: true # telling gateway server to accept lower case service name
 
 management:
   endpoints:
