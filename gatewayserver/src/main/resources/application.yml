@@ -1,0 +1,29 @@
+spring:
+  application:
+    name: "gatewayserver"
+  config:
+    import: "optional:configserver:http://localhost:8071/"
+  cloud: # telling gateway server to connect to discovery server to locate all MS
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*" # to enable and expose all endpoints supported by springboot actuator
+        # ex: http://localhost:8090/actuator/refresh will b exposed for loans
+  endpoint: # gateway server
+    gateway:
+      enabled: true
+  info:
+    env:
+      enabled: true
+
+info:
+  app:
+    name: "gatewayserver"
+    description: "spring bank gateway server application"
+    version: "1.0.0"
