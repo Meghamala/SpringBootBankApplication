@@ -15,6 +15,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
@@ -39,6 +41,9 @@ public class CardsController {
 //    public String sayHello(){
 //        return "Hello World, Cards MS";
 //    }
+
+    private static final Logger logger = LoggerFactory.getLogger(CardsController.class);
+
     @Autowired
     private final ICardsService iCardsService;
 
@@ -103,8 +108,11 @@ public class CardsController {
     })
 
     @GetMapping("/fetch")
-    public ResponseEntity<CardsDto> fetchCards(@RequestParam
+    public ResponseEntity<CardsDto> fetchCards(@RequestHeader("springBank-correlation-id")
+                                                   String correlationId,
+            @RequestParam
                                                    @Pattern(regexp = "(^$|[0-9]{10})", message="Mobile number must be 10 digits") String mobileNumber) {
+        logger.debug("springBank-correlation-id found: {} ", correlationId);
         CardsDto cardsDto = iCardsService.fetchCards(mobileNumber);
 
         return ResponseEntity

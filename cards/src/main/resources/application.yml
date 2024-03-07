@@ -60,3 +60,9 @@ info:
     name: "cards"
     description: "spring bank cards application"
     version: "1.0.0"
+
+logging:
+  level:
+    com:
+      springbank:
+        cards: DEBUG

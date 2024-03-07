@@ -60,3 +60,9 @@ info:
     name: "loans"
     description: "spring bank loans application"
     version: "1.0.0"
+
+logging:
+  level:
+    com:
+      springbank:
+        loans: DEBUG
