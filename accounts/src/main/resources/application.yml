@@ -37,9 +37,17 @@ management:
       exposure:
         include: "*" # to enable and expose all endpoints supported by springboot actuator
         # ex: http://localhost:8090/actuator/refresh will b exposed for loans
+  health: # /actuator/health should be called to get the health status, as gateway server depends on all 3 MS
+    readiness-state:
+      enabled: true
+    liveness-state:
+      enabled: true
   endpoint: # to deregister from eureka during shutdown
     shutdown:
       enabled: true
+    health:
+      probes:
+        enabled: true
   info:
     env:
       enabled: true
