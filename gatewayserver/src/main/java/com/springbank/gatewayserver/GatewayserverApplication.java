@@ -21,7 +21,8 @@ public class GatewayserverApplication {
 				.route(p -> p
 						.path("/springbank/accounts/**") // predicate
 						.filters(f -> f.rewritePath("/springbank/accounts/(?<segment>.*)","/${segment}")
-								.addResponseHeader("X-Response-Time", LocalDateTime.now().toString())) // adding custom response header
+								.addResponseHeader("X-Response-Time", LocalDateTime.now().toString()) // adding custom response header
+								.circuitBreaker(config -> config.setName("accountsCircuitBreaker")))
 						.uri("lb://ACCOUNTS"))
 				.route(p -> p
 						.path("/springbank/loans/**")

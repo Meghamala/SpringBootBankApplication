@@ -34,3 +34,11 @@ logging:
     com:
       springbank:
         gatewayserver: DEBUG
+
+resilience4j.circuitbreaker:
+  configs:
+    default: # for all kinds of circuit breaker
+      slidingWindowSize: 10 #monitor atleast 10 reqs coming to AC service
+      permittedNumberOfCallsInHalfOpenState: 2 #partial traffic in half open
+      failureRateThreshold: 50 # atleast 50% of reqs are failed : move to closed state
+      waitDurationInOpenState: 10000 # wait 10 secs in open state before moving to half open
