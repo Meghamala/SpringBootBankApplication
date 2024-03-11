@@ -9,6 +9,9 @@ spring:
         locator:
           enabled: true
           lowerCaseServiceId: true # telling gateway server to accept lower case service name
+      http-client:
+        connect-timeout: 1000
+        response-timeout: 2s
 
 management:
   endpoints:
