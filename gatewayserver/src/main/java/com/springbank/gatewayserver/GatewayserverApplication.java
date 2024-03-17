@@ -2,10 +2,13 @@ package com.springbank.gatewayserver;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.gateway.filter.ratelimit.KeyResolver;
+import org.springframework.cloud.gateway.filter.ratelimit.RedisRateLimiter;
 import org.springframework.cloud.gateway.route.RouteLocator;
 import org.springframework.cloud.gateway.route.builder.RouteLocatorBuilder;
 import org.springframework.context.annotation.Bean;
 import org.springframework.http.HttpMethod;
+import reactor.core.publisher.Mono;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
@@ -19,7 +22,7 @@ public class GatewayserverApplication {
 
 	@Bean
 	public RouteLocator springBankRouteConfig(RouteLocatorBuilder routeLocatorBuilder){
-		return routeLocatorBuilder.routes()
+		return routeLocatorBuilder.routes() // accounts : circuit breaker, loans: retry , cards: rate limiter
 				.route(p -> p
 						.path("/springbank/accounts/**") // predicate
 						.filters(f -> f.rewritePath("/springbank/accounts/(?<segment>.*)","/${segment}")
@@ -38,8 +41,22 @@ public class GatewayserverApplication {
 				.route(p -> p
 						.path("/springbank/cards/**")
 						.filters(f -> f.rewritePath("/springbank/cards/(?<segment>.*)","/${segment}")
-								.addResponseHeader("X-Response-Time", LocalDateTime.now().toString()))
+								.addResponseHeader("X-Response-Time", LocalDateTime.now().toString())
+								.requestRateLimiter(config -> config.setRateLimiter(redisRateLimiter())
+										.setKeyResolver(userKeyResolver())))
 						.uri("lb://CARDS")).build();
+	}
+
+	// rate limiter pattern
+	@Bean
+	public RedisRateLimiter redisRateLimiter() {
+		return new RedisRateLimiter(1, 1, 1);
+	}
+
+	@Bean
+	KeyResolver userKeyResolver() {
+		return exchange -> Mono.justOrEmpty(exchange.getRequest().getHeaders().getFirst("user"))
+				.defaultIfEmpty("anonymous");
 	}
 
 }
