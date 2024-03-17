@@ -6,6 +6,7 @@ import com.springbank.accounts.dto.CustomerDto;
 import com.springbank.accounts.dto.ErrorResponseDto;
 import com.springbank.accounts.dto.ResponseDto;
 import com.springbank.accounts.service.IAccountsService;
+import io.github.resilience4j.retry.annotation.Retry;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -15,6 +16,8 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.actuate.autoconfigure.observation.ObservationProperties;
@@ -39,6 +42,8 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping(path="/api", produces = {MediaType.APPLICATION_JSON_VALUE})
 @Validated  // tells to perform vaidation on all REST APIs defined inside controller
 public class AccountsController {
+
+    private static final Logger logger = LoggerFactory.getLogger(AccountsController.class);
 
     @Autowired
     private final IAccountsService iAccountsService;
@@ -202,11 +207,22 @@ public class AccountsController {
 
             )
     })
+    @Retry(name = "getBuildInfo", fallbackMethod = "getBuildInfoFallback")
     @GetMapping("/build-info")
     public ResponseEntity<String> getBuildInfo(){
+        logger.debug("Invoked getBuildInfo API");
+        throw new NullPointerException();
+//        return ResponseEntity
+//                .status(HttpStatus.OK)
+//                .body(buildVersion);
+    }
+
+    // this is the fallback method for retry pattern, gateway server doesnot have fall back for retry
+    public ResponseEntity<String> getBuildInfoFallback(Throwable throwable){ // retry pattern inside Microservice
+        logger.debug("Invoked getBuildInfoFallback API");
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(buildVersion);
+                .body("0.5");
     }
 
     @Operation(

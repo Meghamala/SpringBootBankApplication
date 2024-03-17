@@ -88,3 +88,15 @@ resilience4j.circuitbreaker:
       permittedNumberOfCallsInHalfOpenState: 2 #partial traffic in half open
       failureRateThreshold: 50 # atleast 50% of reqs are failed : move to closed state
       waitDurationInOpenState: 10000 # wait 10 secs in open state before moving to half open
+
+resilience4j.retry:
+  configs:
+    default:
+      maxRetryAttempts: 3
+      waitDuration: 100
+      enableExponentialBackoff: true
+      exponentialBackoffMultiplier: 2
+#      ignoreExceptions:
+#        - java.lang.NullPointerException
+#      retryExceptions:
+#        - java.util.concurrent.TimeoutException
