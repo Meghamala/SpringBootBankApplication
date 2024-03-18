@@ -88,7 +88,7 @@
 				<version>3.4.0</version>
 				<configuration>
 					<to>
-						<image>meghamala228/${project.artifactId}:5</image>
+						<image>meghamala228/${project.artifactId}:7</image>
 					</to>
 				</configuration>
 			</plugin>
