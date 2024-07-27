@@ -4,37 +4,42 @@ Welcome to the SpringBoot Bank Application repository. This application is a sim
 
 **Table of Contents**
 
-Features
-Technologies Used
-Getting Started
-Prerequisites
-Installation
-Running the Application
-Usage
-API Endpoints
-Contributing
-License
-Contact
-Features
+- [Features](#features)
+- [Technologies Used](#technologies-used)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation](#installation)
+  - [Running the Application](#running-the-application)
+- [Usage](#usage)
+  - [API Endpoints](#api-endpoints)
+- [Contributing](#contributing)
+- [License](#license)
+- [Contact](#contact)
 
-User Registration and Authentication
-Account Management (Create, Update, Delete accounts)
-Transaction Management (Deposit, Withdraw, Transfer)
-Balance Inquiry
-Transaction History
-Technologies Used
+## Features
 
-Java: Programming Language
-Spring Boot: Framework for building the application
-Spring Data JPA: For database interactions
-H2 Database: In-memory database for development and testing
-Maven: Build and dependency management tool
-JUnit: Testing framework
-Getting Started
+- User Registration and Authentication
+- Account Management (Create, Read, Update, Delete accounts)
+- Transaction Management (Deposit, Withdraw, Transfer)
+- Balance Inquiry
+- Transaction History
 
-Prerequisites
-JDK 11 or later
-Maven 3.6.0 or later
+## Technologies Used
+
+- **Java**: Programming Language
+- **Spring Boot**: Framework for building the application
+- **Spring Data JPA**: For database interactions
+- **H2 Database**: In-memory database for development and testing
+- **Maven**: Build and dependency management tool
+- **JUnit**: Testing framework
+
+## Getting Started
+
+### Prerequisites
+
+- JDK 11 or later
+- Maven 3.6.0 or later
+
 Installation
 Clone the repository:
 sh
